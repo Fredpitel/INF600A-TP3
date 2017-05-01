@@ -22,9 +22,9 @@ module CombatantTexte
   end
 
   # Methode pour sauvegarder un objet Combatant dans la base de donnees.
-  def self.sauver_combatant( fich, cours )
+  def self.sauver_combatant( fich, combatant )
     vivant = combatant.vivant? ? VIVANT : MORT
     victimes = combatant.victimes.join(SEPARATEUR_VICTIMES)
-    fich.puts [combatant.nom, combatant.type, combatant.niveau, vivant].join(SEP)
+    fich.puts [combatant.nom, combatant.type, combatant.niveau, victimes, vivant].join(SEP)
   end
 end

@@ -7,7 +7,7 @@ spec = Gem::Specification.new do |s|
   s.email = 'pitel.frederic@courriel.uqam.ca'
   s.homepage = 'http://your.website.com'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'Simulateur de jeu de role.'
+  s.summary = 'Simulateur de jeu de role'
   s.files = `git ls-files`.split("
 ")
   s.require_paths << 'lib'

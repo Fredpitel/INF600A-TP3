@@ -20,48 +20,78 @@ arguments :strict
 
 desc 'Permet de fournir une base de donnees autre que celle par defaut.'
 default_value 'combatants.txt'
-arg_name 'Le nom du fichier contenant la base de donnees'
+arg_name 'RPG-Simulator --depot=...'
 flag [:d,:depot]
 
 desc 'Cree un nouveau hero dans la base de donnees.'
-arg_name 'nom_hero: donne un nom unique au hero.'
+arg_name 'creer_hero [--niveau= ] nom'
 command :creer_hero do |c|
-  c.desc 'Describe a switch to creer_hero'
-  c.switch :s
 
-  c.desc 'Describe a flag to creer_hero'
-  c.default_value 'default'
-  c.flag :f
+  c.desc 'Permet de specifier le niveau du hero a la creation'
+  c.default_value '1'
+  c.flag [:n, :niveau]
+  
   c.action do |global_options,options,args|
+    nom = args.shift
+    niveau = options[:n]
+    combatants = global_options[:combatants]
 
-    # Your command logic here
-     
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+    hero = RPGSimulator.creer_hero(combatants, nom, niveau)  
 
-    puts "Hero cree."
+    if hero.nil?
+      STDERR.puts "Un hero avec ce nom existe deja."
+      exit 1
+    else
+      combatants << hero
+      puts "Hero cree"
+    end
   end
 end
 
 desc 'Cree un nouveau monstre dans la base de donnees'
-arg_name 'nom_monstre: donne un nom unique au monstre'
+arg_name 'creer_monstre[--niveau= ] nom'
 command :creer_monstre do |c|
+
+  c.desc 'Permet de specifier le niveau du monstre a la creation'
+  c.default_value '1'
+  c.flag [:n, :niveau]
+  
   c.action do |global_options,options,args|
-    puts "Monstre cree."
+    nom = args.shift
+    niveau = options[:n]
+    combatants = global_options[:combatants]
+
+    monstre = RPGSimulator.creer_monstre(combatants, nom, niveau)  
+
+    if monstre.nil?
+      STDERR.puts "Un monstre avec ce nom existe deja."
+      exit 1
+    else
+      combatants << monstre
+      puts "Monstre cree"
+    end
   end
 end
 
 desc 'Combat entre un hero et un monstre.'
-arg_name 'nom_hero: nom du hero
-          nom_monstre: nom du monstre'
+arg_name 'combat [--avance] nom_hero nom_monstre'
 command :combat do |c|
+  
+  c.desc 'Difficulte de combat avancee'
+  c.switch [:a, :avance]
+
   c.action do |global_options,options,args|
-    puts "Combat termine, le gagnant est: "
+    nom_hero = args.shift
+    nom_monstre = args.shift
+    avance = options[:a]
+    combatants = global_options[:combatants]
+
+    puts RPGSimulator.combat(combatants, nom_hero, nom_monstre, avance)
   end
 end
 
 desc 'Liste les informations des heros et des monstres.'
-arg_name 'N/A'
+arg_name 'lister [--tous]'
 command :lister do |c|
   c.action do |global_options,options,args|
     puts ""
@@ -69,8 +99,9 @@ command :lister do |c|
 end
 
 pre do |global,command,options,args|
-  if File.exists? global[:depot]
-    IO.readlines( global[:depot] ).map do |ligne|
+  if File.exists? global[:d]
+    global[:combatants] = []
+    IO.readlines( global[:d] ).map do |ligne|
       global[:combatants] << CombatantTexte::creer_combatant(ligne)
     end
   end 
@@ -91,7 +122,7 @@ post do |global,command,options,args|
   if global[:combatants]
     File.open( global[:depot], "w" ) do |fich|
       global[:combatants].each do |c|
-        Combatant.sauver_combatant( fich, c )
+        CombatantTexte.sauver_combatant( fich, c )
       end
     end
   end

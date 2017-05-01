@@ -1,4 +1,5 @@
 require 'RPG-Simulator/version.rb'
+require 'RPG-Simulator/RPG-Simulator.rb'
 require 'RPG-Simulator/combatant.rb'
 require 'RPG-Simulator/combatant-texte.rb'
 
