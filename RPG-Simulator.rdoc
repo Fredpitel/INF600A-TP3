@@ -1,0 +1,5 @@
+= RPG-Simulator
+
+Generate this with
+    RPG-Simulator rdoc
+After you have described your command line interface

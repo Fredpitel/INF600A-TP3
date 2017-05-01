@@ -1,0 +1,98 @@
+#!/usr/bin/env ruby
+require 'gli'
+begin # XXX: Remove this begin/rescue before distributing your app
+require 'RPG-Simulator'
+rescue LoadError
+  STDERR.puts "In development, you need to use `bundle exec bin/RPG-Simulator` to run your app"
+  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
+  STDERR.puts "Feel free to remove this message from bin/RPG-Simulator now"
+  exit 64
+end
+
+include GLI::App
+
+program_desc 'Simulateur de jeu de role.'
+
+version RPGSimulator::VERSION
+
+subcommand_option_handling :normal
+arguments :strict
+
+desc 'Describe some switch here'
+switch [:s,:switch]
+
+desc 'Describe some flag here'
+default_value 'the default'
+arg_name 'The name of the argument'
+flag [:f,:flagname]
+
+desc 'Cree un nouveau hero dans la base de donnees.'
+arg_name 'nom_hero: donne un nom unique au hero.'
+command :creer_hero do |c|
+  c.desc 'Describe a switch to creer_hero'
+  c.switch :s
+
+  c.desc 'Describe a flag to creer_hero'
+  c.default_value 'default'
+  c.flag :f
+  c.action do |global_options,options,args|
+
+    # Your command logic here
+     
+    # If you have any errors, just raise them
+    # raise "that command made no sense"
+
+    puts "Hero cree."
+  end
+end
+
+desc 'Cree un nouveau monstre dans la base de donnees'
+arg_name 'nom_monstre: donne un nom unique au monstre'
+command :creer_monstre do |c|
+  c.action do |global_options,options,args|
+    puts "Monstre cree."
+  end
+end
+
+desc 'Combat entre un hero et un monstre.'
+arg_name 'nom_hero: nom du hero
+          nom_monstre: nom du monstre'
+command :combat do |c|
+  c.action do |global_options,options,args|
+    puts "Combat termine, le gagnant est: "
+  end
+end
+
+desc 'Liste les informations des heros et des monstres.'
+arg_name 'N/A'
+command :lister do |c|
+  c.action do |global_options,options,args|
+    puts ""
+  end
+end
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  
+
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  STDERR.puts "*** Exception signalee dans bin/ŖPG-Simulator !!"
+  STDERR.puts "#{ exception.class }( #{ exception.message } )"
+  STDERR.puts exception.backtrace
+  false
+end
+
+exit run(ARGV)
