@@ -1,4 +1,3 @@
-require_relative 'dbc'
 require_relative 'combatant-texte'
 
 class Combatant
@@ -27,7 +26,16 @@ class Combatant
   	@vivant = vivant
   end
 
+  def == (autre)
+  	@nom == autre.nom\
+	&& @type == autre.type\
+	&& @niveau == autre.niveau\
+	&& @victimes == autre.victimes\
+	&& @vivant == autre.vivant\
+  end	
+
   def vivant?
   	@vivant
   end
+
 end

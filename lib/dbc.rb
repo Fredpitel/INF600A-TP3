@@ -7,6 +7,9 @@
 ############################################################
 
 module DBC
+
+  class Failure < RuntimeError; end
+
   module_function
 
   # Verifie une assertion generale.
@@ -17,7 +20,7 @@ module DBC
   # @raise DBC::Failure si la condition est fausse, aucun effet sinon
   #
   def assert( condition, message = nil )
-    fail "Assertion non satisfaite: #{message}" unless condition
+    fail Failure, "Assertion non satisfaite: #{message}" unless condition
   end
 
   # Verifie une precondition (antecedent).
@@ -27,7 +30,7 @@ module DBC
   # @raise (see #assert)
   #
   def require( condition, message = nil )
-    fail "Precondition non satisfaite: #{message}" unless condition
+    fail Failure, "Precondition non satisfaite: #{message}" unless condition
   end
 
   # Verifie une postcondition (consequent).
@@ -37,7 +40,7 @@ module DBC
   # @raise (see #assert)
   #
   def ensure( condition, message = nil )
-    fail "Postcondition non satisfaite: #{message}" unless condition
+    fail Failure, "Postcondition non satisfaite: #{message}" unless condition
   end
 
   # Verifie un invariant.
@@ -47,7 +50,7 @@ module DBC
   # @raise (see #assert)
   #
   def invariant( condition, message = nil )
-    fail "Invariant non satisfait: #{message}" unless condition
+    fail Failure, "Invariant non satisfait: #{message}" unless condition
   end
 
   # Verifie le type d'un argument d'une methode. Utile pour avoir des constructeurs flexibles.
@@ -60,9 +63,9 @@ module DBC
   #
   def check_type( val, expected_type, message = '*** ' )
     if expected_type.class == Array
-      fail message + "Le type de #{val} n'est pas dans #{expected_type.inspect}" unless expected_type.include? val.class
+      fail Failure, message + "Le type de #{val} n'est pas dans #{expected_type.inspect}" unless expected_type.include? val.class
     else
-      fail message + "Le type de #{val} n'est pas dans #{expected_type.inspect}" unless val.kind_of? expected_type
+      fail Failure, message + "Le type de #{val} n'est pas dans #{expected_type.inspect}" unless val.kind_of? expected_type
     end
   end
 
@@ -76,9 +79,9 @@ module DBC
   #
   def check_value( val, expected_value, message = '*** ' )
     if expected_value.class == Array
-      fail message + "Valeur #{val} pas dans #{expected_value.inspect}" unless expected_value.include? val
+      fail Failure, message + "Valeur #{val} pas dans #{expected_value.inspect}" unless expected_value.include? val
     else
-      fail message + "Valeur #{val} differente de #{expected_value.inspect}" unless val == expected_value
+      fail Failure, message + "Valeur #{val} differente de #{expected_value.inspect}" unless val == expected_value
     end
   end
 
@@ -93,6 +96,6 @@ module DBC
   def check_keyword_arguments( args, expected_keywords, message = '*** ' )
     invalid_kw = args.keys.select { |kw| !(expected_keywords.include? kw) }
 
-    fail message + "Un argument par mot-cle (dans #{invalid_kw}) n'est pas approprie (pas dans #{expected_keywords})" unless invalid_kw.empty?
+    fail Failure, message + "Un argument par mot-cle (dans #{invalid_kw}) n'est pas approprie (pas dans #{expected_keywords})" unless invalid_kw.empty?
   end
 end

@@ -18,7 +18,7 @@ module RPGSimulator
 		
 		if avance
 			diff = (hero.niveau - monstre.niveau).abs
-			resultat = Random.new.rand(diff + 2)
+			resultat = rand(diff + 2)
 			if resultat == 0
 				gagnant = plus_fort == hero ? monstre : hero
 			else
@@ -31,6 +31,11 @@ module RPGSimulator
 		gerer_victoire(gagnant, hero, monstre)
 
 		"Combat termine, le gagnant est: #{gagnant.nom}"
+	end
+
+	def self.lister(combatants, tous = false)
+		liste = tous ? combatants : combatants.select { |c| c.vivant? }
+		liste.map { |c| c.to_s }.join("\n") 
 	end
 
 	def self.creer_combatant(combatants, nom, type, niveau)
