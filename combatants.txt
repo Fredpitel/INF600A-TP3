@@ -1,0 +1,5 @@
+Fred,HERO,3,Xaluf:Mageb,VIVANT
+Morglub,MONSTRE,1,,VIVANT
+Xaluf,MONSTRE,2,Ben,MORT
+Mageb,MONSTRE,1,,MORT
+Ben,HERO,1,,MORT

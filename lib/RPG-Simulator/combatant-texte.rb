@@ -15,7 +15,7 @@ module CombatantTexte
   def self.creer_combatant( ligne )
     nom, type, niveau, victimes, vivant = ligne.chomp.split(SEP)
     Combatant.new( nom,
-    			   type,
+    			         type,
                	   niveau.to_i,
                	   *victimes.split(SEPARATEUR_VICTIMES),
                	   vivant: vivant == VIVANT )

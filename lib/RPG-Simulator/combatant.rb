@@ -26,6 +26,11 @@ class Combatant
   	@vivant = vivant
   end
 
+  def to_s
+  	rip = vivant? ? "" : "(RIP)"
+  	"#{nom}#{rip}, #{type}, #{niveau}, #{victimes}"
+  end
+
   def == (autre)
   	@nom == autre.nom\
 	&& @type == autre.type\
@@ -37,5 +42,10 @@ class Combatant
   def vivant?
   	@vivant
   end
+
+  def tuer
+  	@vivant = false
+  	self
+  end 
 
 end

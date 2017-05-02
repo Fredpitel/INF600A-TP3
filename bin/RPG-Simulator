@@ -93,8 +93,15 @@ end
 desc 'Liste les informations des heros et des monstres.'
 arg_name 'lister [--tous]'
 command :lister do |c|
+
+  c.desc 'Liste les combatants morts egalement'
+  c.switch [:t, :tous]
+
   c.action do |global_options,options,args|
-    puts ""
+    tous = options[:t]
+    combatants = global_options[:combatants]
+
+    puts RPGSimulator.lister(combatants, tous)
   end
 end
 
