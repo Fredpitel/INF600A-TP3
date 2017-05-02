@@ -17,6 +17,8 @@ describe RPGSimulator do
               		  rpg( "lister --tous" )
             		end
           	end
+
+            FileUtils.rm_f bd
     	  end
   	end
 end
