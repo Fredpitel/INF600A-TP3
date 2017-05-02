@@ -17,8 +17,8 @@ module RPGSimulator
 		plus_fort = hero.niveau >= monstre.niveau ? hero : monstre
 		
 		if avance
-			diff = (hero.niveau - monstre.niveau).abs
-			resultat = rand(diff + 2)
+			diff = (hero.niveau - monstre.niveau).abs + 1
+			resultat = rand(0..diff)
 			if resultat == 0
 				gagnant = plus_fort == hero ? monstre : hero
 			else

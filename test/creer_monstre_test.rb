@@ -19,7 +19,7 @@ describe RPGSimulator do
 			monstre.must_equal Combatant.new("Morglub", "MONSTRE", 1, "")
 		end
 
-        it "retourn nil si le nom existe deja" do
+        it "retourne nil si le nom existe deja" do
         	monstre_existant = Combatant.new("Morglub", "MONSTRE", 1, "")
         	monstre = RPGSimulator.creer_monstre([monstre_existant], "Morglub")
 

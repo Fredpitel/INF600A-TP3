@@ -5,18 +5,13 @@ require 'rdoc/task'
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
-  rd.title = 'Your application title'
-end
-
-spec = eval(File.read('RPG-Simulator.gemspec'))
-
-Gem::PackageTask.new(spec) do |pkg|
+  rd.title = 'RPG-Simulator'
 end
 
 require 'rake/testtask'
 Rake::TestTask.new do |t|
   t.libs << "test"
-  t.test_files = FileList['test/*_test.rb']
+  t.test_files = FileList['test/*_test.rb', "test_acceptation/*_test.rb"]
 end
 
-task :default => [:test,:features]
+task :default => [:test]

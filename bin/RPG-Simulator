@@ -20,7 +20,7 @@ arguments :strict
 
 desc 'Permet de fournir une base de donnees autre que celle par defaut.'
 default_value 'combatants.txt'
-arg_name 'RPG-Simulator --depot=...'
+arg_name 'RPG-Simulator --depot='
 flag [:d,:depot]
 
 desc 'Cree un nouveau hero dans la base de donnees.'
@@ -119,13 +119,6 @@ end
 post do |global,command,options,args|
   FileUtils.cp global[:depot], "#{global[:depot]}.bak"
 
-  # On sauve les cours dans le fichier.
-  #
-  # Ici, on aurait aussi pu utiliser map plutot que each. Toutefois,
-  # comme la collection resultante n'aurait pas ete utilisee,
-  # puisqu'on execute la boucle uniquement pour son effet de bord
-  # (ecriture dans le fichier), ce n'etait pas approprie.
-  #
   if global[:combatants]
     File.open( global[:depot], "w" ) do |fich|
       global[:combatants].each do |c|
