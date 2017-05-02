@@ -11,7 +11,8 @@ end
 require 'rake/testtask'
 Rake::TestTask.new do |t|
   t.libs << "test"
+  t.libs << "acceptation"
   t.test_files = FileList['test/*_test.rb', "test_acceptation/*_test.rb"]
 end
 
-task :default => [:test]
+task :default => [:test, :acceptation]
